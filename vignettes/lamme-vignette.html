@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Qimin Liu" />
+
+
+<title>an Illustration of lemme</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">an Illustration of lemme</h1>
+<h4 class="author"><em>Qimin Liu</em></h4>
+
+
+
+<div id="goal" class="section level1">
+<h1>Goal</h1>
+<p>This vignette focuses on illustrating the use of different functions in the <code>lamme</code> package in a realistic scenario. The <code>lamme</code> package includes function related to log-analytic methods for multiplicative effects. For example, the Logged ANOVA has the full model as <span class="math display">\[Y_{ij}=\mu^*\theta_j X_{ij}^{\beta}\epsilon_{ij}\]</span> where <span class="math inline">\(\mu^*\)</span> is the geometric mean of the posttest score, <span class="math inline">\(X\)</span> denotes the pretest scores, <span class="math inline">\(\beta\)</span> denotes the power parameter that describes the potentially nonlinear relationship between pretest and posttest scores, <span class="math inline">\(\theta_j\)</span> is the ratio effect of group <span class="math inline">\(j\)</span> with respect to the grand mean, and <span class="math inline">\(\epsilon\)</span> is the multiplicative error term.</p>
+<p>We utilize an open dataset by Schoene et al. (2015). We first describe the data, then explain the motivation for using <code>lamme</code>, and show how different functions in <code>lamme</code> can be applied and interpreted.</p>
+</div>
+<div id="data-description" class="section level1">
+<h1>Data description</h1>
+<p>A randomized pretest-posttest design was used to investigate the effects of interactive cognitive-motor step training on cognitive risk factors for falling in older adults. The experimental treatment for the intervention group (n = 39) consisted of four games all combining physical stepping and mental tasks, while the control group (n = 42) received brochures about healthy lifestyle and instructions to continue their normal routine but no cognitive or physical training.</p>
+<p>For example, one mental task is the letter-digit test where the participants were asked to match digits and numbers as quickly as possible. One of the outcome measures for this task was simple hand reaction time in ms. The same measure was also obtained at baseline prior to training. For demonstration, we selected hand reaction time as the variable to focus on for our analyses.</p>
+<ul>
+<li>group: a categorical variable denoting if the individual is from the treatment or control group</li>
+<li>pre_HRT: prettest hand reaction time</li>
+<li>post_HRT: posttest hand reaction time</li>
+</ul>
+<p>We first load the data and obtain basic summary statistics.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lamme)
+<span class="kw">data</span>(<span class="st">&quot;schoene&quot;</span>)
+<span class="kw">attach</span>(schoene)
+<span class="kw">summary</span>(schoene)</code></pre></div>
+<pre><code>##        group       pre_HRT         post_HRT    
+##  control  :42   Min.   :172.8   Min.   :175.8  
+##  treatment:39   1st Qu.:227.3   1st Qu.:214.3  
+##                 Median :257.0   Median :237.4  
+##                 Mean   :260.3   Mean   :243.9  
+##                 3rd Qu.:287.7   3rd Qu.:264.4  
+##                 Max.   :432.8   Max.   :360.4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">c</span>(<span class="st">'sd_pre'</span>=<span class="kw">sd</span>(pre_HRT),<span class="st">'sd_post'</span>=<span class="kw">sd</span>(post_HRT))</code></pre></div>
+<pre><code>##   sd_pre  sd_post 
+## 44.53229 40.00070</code></pre>
+<p>To view the data information, <code>??schoene</code> can be used.</p>
+</div>
+<div id="motivation" class="section level1">
+<h1>Motivation</h1>
+<div id="theoretical-motivation" class="section level2">
+<h2>Theoretical Motivation</h2>
+<p>As reaction time differs drastically across people as evidenced in the standard deviation of the pretest hand reaction time, it would make sense that the intervention may result in larger decreases in reaction time for those with higher pretest scores than for those with lower pretest scores.</p>
+</div>
+<div id="empirical-diagnostic" class="section level2">
+<h2>Empirical Diagnostic</h2>
+<p>Having established a theoretical reason for testing multiplicative effects, we now hope to obtain more support from empirical diagnostics. Here, we apply the <code>abc</code> function in order to do AIC comparison with modified Box-Cox (ABC) procedure. Using the ABC procedure, as opposed to simply compare the multiplicative and additive models, is important because the model fit statistics are only comparable across models in the ABC procedure. More information about <code>abc</code> can be obtained through <code>?abc</code>. When pretest scores are input into the <code>abc</code> function, the ABC procedure compares LANCOVA, ANCOVA, ANCOHET, and ANCOVA with log-transformed y by default.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">abc</span>(post_HRT,group,pre_HRT)</code></pre></div>
+<pre><code>## $ancova
+## [1] 759.9898
+## 
+## $ancohet
+## [1] 761.6763
+## 
+## $`ancova-l`
+## [1] 746.6123
+## 
+## $lancova
+## [1] 743.1558</code></pre>
+<p>Based on the AIC values, all other models received less support than the LANCOVA model (<span class="math inline">\(AIC=743.156\)</span>,<span class="math inline">\(\Delta AIC&gt;2\)</span> compared to all other compared models). For illustrative purpose, imagine that no pretest scores were collected, in this case, we use <code>abc(post_HRT,group)</code>, the AIC value for LANOVA and ANOVA models are respectively <code>round(abc(post_HRT,group),3)</code>: the LANOVA model received considerably more support than the ANOVA model.</p>
+</div>
+</div>
+<div id="data-analysis" class="section level1">
+<h1>Data Analysis</h1>
+<p>Given the theoretical motivation and the empirical diagnostic, it is justified for us to test and estiamte the multiplicative effects of the experimental treatment on the hand reaction time. We use the function <code>lancova</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lancova</span>(post_HRT,group,pre_HRT)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = (log(y) ~ log(x) + factor(g)))
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## 0.7474 0.9404 0.9858 1.0541 1.3438 
+## 
+## Coefficients:
+##                      Estimate (log-scale) s.e.    t value   Pr(&gt;|t|)
+## (Intercept)         4.056e+00        3.631e-01  3.856e+00  2.353e-04
+## x                   7.400e-01        6.533e-02  1.133e+01  3.811e-18
+## factor(g)treatment  9.563e-01        2.129e-02 -2.098e+00  3.919e-02
+##                         2.5 % 97.5 %
+## (Intercept)         1.969e+00  8.358
+## x                   6.099e-01  0.870
+## factor(g)treatment  9.166e-01  0.998
+## 
+## Residual standard error: 0.09569 on 78 degrees of freedom
+## Multiple R-squared:  0.6327, Adjusted R-squared:  0.6233 
+## F-statistic: 67.19 on 2 and 78 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>The experimental treatment shows a significant multiplicative effect, <span class="math inline">\(\zeta=.96\)</span>, <span class="math inline">\(95\%\)</span> CI<span class="math inline">\(=(.917,.998)\)</span>. That is, the ratio between the effects of the treatment and the control group is <span class="math inline">\(\frac{\hat{\theta}_\text{treatment}}{\hat{\theta}_\text{control}}=96\%\)</span>. This means that compared with the control group, the treatment group was 4% faster in terms of the hand reaction time, which indicates improved general processing with transfers to complex unlearned tasks that require high levels of attention.</p>
+<p>We now move on to interpret other parameter estimates from the output. In the <code>intercept</code> row, the estimate is of the control group posttest (geometric) mean. In the <code>x</code> row, the estimate is of the power relationship parameter <span class="math inline">\(\beta\)</span>. Here we can see that the pretest scores also significantly predicts the posttest scores, <span class="math inline">\(p&lt;.05\)</span>. Note that the standard errors are from the logged model. In terms of overall model significance, we see that <span class="math inline">\(F(2,78)=67.19, p&lt;.05\)</span>. We can also calculate the overall model effect size, <span class="math inline">\(\frac{R^2}{1-R^2}=\frac{.6327}{1-.6327}=1.72\)</span>.</p>
+<p>Moreover, boostrapped effect size measures can be obtained via <code>boot.es</code>. Note that <code>boot.es</code> follows bootstrapping procedures and should show performance expected of the respective procedure. However, the exact performance of the boostrapping procedures is still under evaluation. As such, the users should use <code>boot.es</code> with caution. Currently, <code>boot.es</code> output the bias-corrected boostrap confidence interval and the expanded percentile confidence interval.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">boot.es</span>(post_HRT,group,pre_HRT)</code></pre></div>
+<pre><code>##                   BCa LL    BCa UL exp perc LL exp perc UL
+## control        1.9390315 8.2982461   1.8227053   8.3075384
+## treatment      0.9187032 0.9938851   0.9181885   0.9944167
+## x              0.6075463 0.8731191   0.6088265   0.8826783
+## sig2nois ratio        NA        NA   0.9996271   3.1725711</code></pre>
+<p>We see that the the boostrap confidence interval for the <span class="math inline">\(\zeta_{treatment}\)</span> is comparable to that from exponentiated CI from the logged model, which is included in the <code>lancova</code> output. Moreover, a confidence interval for the overall effect size is shown here in the <code>sig2nois ratio</code> row, e.g., <span class="math inline">\(95\%\)</span> BCa CI=</p>
+<p>For illustrative purpose, we suppose that pretest scores are not available. In this case, we use the function <code>lanova</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lanova</span>(post_HRT,group)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = (log(y) ~ factor(g)))
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## 0.7498 0.8936 0.9903 1.0931 1.5362 
+## 
+## Coefficients:
+##                       Estimate (log-scale) s.e.     t value    Pr(&gt;|t|)
+## (Intercept)          2.471e+02        2.386e-02   2.309e+02  1.481e-113
+## factor(g)treatment   9.489e-01        3.439e-02  -1.526e+00   1.309e-01
+##                          2.5 %  97.5 %
+## (Intercept)          2.356e+02 259.122
+## factor(g)treatment   8.861e-01   1.016
+## 
+## Residual standard error: 0.1546 on 79 degrees of freedom
+## Multiple R-squared:  0.02864,    Adjusted R-squared:  0.01635 
+## F-statistic:  2.33 on 1 and 79 DF,  p-value: 0.1309</code></pre>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

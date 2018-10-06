@@ -1,0 +1,110 @@
+---
+title: "lamme: an Illustration"
+author: "Qimin Liu"
+output: rmarkdown::pdf_document
+vignette: >
+  %\VignetteIndexEntry{lamme-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Goal
+
+This vignette focuses on illustrating the use of different functions in the `lamme` package in a realistic scenario. The `lamme` package includes function related to log-analytic methods for multiplicative effects. For example, the Logged ANCOVA (LANCOVA) has the full model as $$Y_{ij}=\mu^*\theta_j X_{ij}^{\beta}\epsilon_{ij}$$ where $\mu^*$ is the geometric mean of the posttest score, $X$ denotes the pretest scores, $\beta$ denotes the power parameter that describes the potentially nonlinear relationship between pretest and posttest scores, $\theta_j$ is the ratio effect of group $j$ with respect to the grand mean, and $\epsilon$ is the multiplicative error term.
+
+We utilize an open dataset by Schoene et al. (2015). We first describe the data, then explain the motivation for using `lamme`, and show how different functions in `lamme` can be applied and interpreted. 
+
+In addition, we show how power calculation and sample size planning for LANOVA and LANCOVA can be done through `lamme`.
+
+# Data description
+
+A randomized pretest-posttest design was used to investigate the effects of interactive cognitive-motor step training on cognitive risk factors for falling in older adults. The experimental treatment for the intervention group (n = 39) consisted of four games all combining physical stepping and mental tasks, while the control group (n = 42) received brochures about healthy lifestyle and instructions to continue their normal routine but no cognitive or physical training. 
+
+For example, one mental task is the letter-digit test where the participants were asked to match digits and numbers as quickly as possible. One of the outcome measures for this task was simple hand reaction time in $ms$. The same measure was also obtained at baseline prior to training. For demonstration, we selected hand reaction time as the variable to focus on for our analyses.
+
+- group: a categorical variable denoting if the individual is from the treatment or control group 
+- pre_HRT: prettest hand reaction time
+- post_HRT: posttest hand reaction time
+
+We first load the data and obtain basic summary statistics.
+
+```{r}
+library(lamme)
+data("schoene")
+attach(schoene)
+summary(schoene)
+c('sd_pre'=sd(pre_HRT),'sd_post'=sd(post_HRT))
+```
+
+To view the data information, `??schoene` can be used.
+
+# Motivation 
+
+## Theoretical Motivation
+
+Because reaction time differs drastically across people as evidenced in the standard deviation of the pretest hand reaction time, it would make sense that the intervention may result in larger decreases in reaction time for those with higher pretest scores than for those with lower pretest scores. 
+
+## Empirical Diagnostic
+
+Having established a theoretical reason for testing multiplicative effects, we now hope to obtain more support from empirical diagnostics. Here, we apply the `abc` function in order to do AIC comparison with modified Box-Cox (ABC) procedure. Using the ABC procedure, as opposed to simply comparing the multiplicative and additive models, is important because the model fit statistics are only comparable across models in the ABC procedure. More information about `abc` can be obtained through `?abc`. When pretest scores are input into the `abc` function, the ABC procedure compares LANCOVA, ANCOVA, ANCOHET, and ANCOVA with log-transformed y by default. 
+
+```{r}
+abc(post_HRT,group,pre_HRT)
+```
+
+Based on the AIC values, all other models received less support than the LANCOVA model ($AIC=743.156$, $\Delta AIC>2$ compared to all other compared models). For illustrative purpose, imagine that no pretest scores were collected. in this case, we use `abc(post_HRT,group)`, the AIC value for ANOVA and LANOVA models are respectively `r abc(schoene$post_HRT,schoene$group)`: the LANOVA model received considerably more support than the ANOVA model.
+
+# Data Analysis
+
+To test and estimate the multiplicative effects of the experimental treatment on the hand reaction time. We use the function `lancova`.
+
+```{r}
+lancova(post_HRT,group,pre_HRT)
+```
+
+The experimental treatment shows a significant multiplicative effect, $\zeta=.96$, $95\%$ CI$=(.917,.998)$. That is, the ratio between the effects of the treatment and the control group is $\frac{\hat{\theta}_\text{treatment}}{\hat{\theta}_\text{control}}=96\%$. This means that compared with the control group, the treatment group was 4% faster in terms of the hand reaction time, which indicates improved general processing with transfers to complex unlearned tasks that require high levels of attention. 
+
+We now move on to interpret other parameter estimates from the output. In the `intercept` row, the estimate is of the control group posttest (geometric) mean. In the `x` row, the estimate is of the power relationship parameter $\beta$. Here we can see that the pretest scores also significantly predicts the posttest scores, $p<.05$. Note that the standard errors are from the logged model. In terms of overall model significance, we see that $F(2,78)=67.19, p<.05$. We can also calculate the overall model effect size, $\frac{R^2}{1-R^2}=\frac{.6327}{1-.6327}=1.72$. 
+
+Moreover, boostrapped effect size measures can be obtained via `boot.es`. Note that `boot.es` follows bootstrapping procedures and should show performance expected of the respective procedure. However, the exact performance of the boostrapping procedures is still under evaluation. As such, the users should use `boot.es` with caution. Currently, `boot.es` output the bias-corrected and accelerated boostrap confidence interval and the expanded percentile confidence interval.
+
+```{r}
+boot.es(post_HRT,group,pre_HRT)
+```
+
+We see that the the boostrap confidence interval for the $\zeta_{treatment}$ is comparable to that from exponentiated CI from the logged model, which is included in the `lancova` output. Moreover, a confidence interval for the overall effect size is shown here in the `sig2nois ratio` row, e.g., $95\%$ BCa CI$=0.84,2.71$.
+
+For illustrative purpose, suppose that pretest scores are not available. In this case, we use the function `lanova`. Note that for both `lanova` and `lancova`, argument `plot` can be set at `True`, which would give post-hoc diagnostic plots. 
+
+```{r}
+par(mfrow=c(2,2))
+lanova(post_HRT,group)
+```
+
+
+# Power Calculation and Sample Size Planning
+
+`lamme` package can also be used for power calculation and sample size planning. For power calculation, we use `pwr.lanova` and `pwr.lancova` respectively for LANOVA and LANCOVA. 
+
+```{r}
+# power in three-group LANOVA with per-group sample size of 40 given small population 
+# effect
+pwr.lanova(3,40,.01,.05)
+# power in three-group LANCOVA with per-group sample size of 40 and pretest-posttest 
+# correlation of .5 given small population effect
+pwr.lancova(3,40,.01,.5,.05)
+```
+
+For sample size planning, we use `ss.lanova` and `ss.lancova` respectively for LANOVA and LANCOVA. 
+
+```{r}
+# sample size planning in three-group LANOVA with desired power of .8 and 
+# significance level of .05 given assumed small population effect
+ss.lanova(3,.01,.8,.05)
+# sample size planning in three-group LANOVA with desired power of .8 and 
+# significance level of .05 and pretest-posttest correlation of .5 given 
+# assumed small population effect
+ss.lancova(3,.01,.5,.8,.05)
+```
+
+
